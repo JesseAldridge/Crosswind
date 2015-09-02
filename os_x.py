@@ -1,11 +1,12 @@
-import subprocess, os
+import subprocess, os, time, re
 
-import AppKit
 from PIL import Image
 
 def get_screen_size():
-  return max([(screen.frame().size.width, screen.frame().size.height) 
-    for screen in AppKit.NSScreen.screens()])
+  proc = subprocess.Popen(['system_profiler', 'SPDisplaysDataType'], stdout=subprocess.PIPE)
+  result = proc.communicate()[0]
+  dims = re.search('Resolution.*', result).group().split(':')[-1].split('x')
+  return [int(x) for x in dims]
 
 def take_screenshot():
   ' Return an Image of the screen. '
@@ -18,4 +19,6 @@ def take_screenshot():
 
 if __name__ == '__main__':
   print get_screen_size()
-  print take_screenshot()
+  # for i in range(5):
+  #   print take_screenshot()
+  #   time.sleep(1)
