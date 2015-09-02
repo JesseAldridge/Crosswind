@@ -1,6 +1,7 @@
-import subprocess
+import subprocess, os
 
 import AppKit
+from PIL import Image
 
 def get_screen_size():
   return max([(screen.frame().size.width, screen.frame().size.height) 
@@ -17,4 +18,4 @@ def take_screenshot():
 
 if __name__ == '__main__':
   print get_screen_size()
-  
+  print take_screenshot()
