@@ -1,6 +1,4 @@
-import subprocess, os, time, re
-
-from PIL import Image
+import subprocess, os, time, re, tempfile
 
 class g:
   cached_size = None
@@ -16,11 +14,11 @@ def get_screen_size():
 def take_screenshot():
   ' Return an Image of the screen. '
 
-  cmd_line = 'screencapture -t png -x temp_img.png'
+  tf = tempfile.NamedTemporaryFile()
+  print 'name:', tf.name
+  cmd_line = 'screencapture -t png -x {}'.format(tf.name)
   subprocess.Popen(cmd_line.split()).communicate()
-  img = Image.open('temp_img.png')
-  os.remove('temp_img.png')
-  return img
+  return tf
 
 if __name__ == '__main__':
   for i in range(10):
